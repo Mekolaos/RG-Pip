@@ -32,6 +32,9 @@ class App(QMainWindow):
 		self.pipList.move(410, 40)
 		self.pipList.resize(380,450)
 		self.pipList.setStyleSheet("background-color: white;")
+		self.listLabel = QLabel('Info  : ', self)
+		self.listLabel.move(410, 10)
+		self.listLabel.setStyleSheet("color : white; font-size:15px;")
 
 		#Créer un bouton pour installation standard
 		self.installer = QPushButton('Install Module', self)
@@ -59,12 +62,19 @@ class App(QMainWindow):
 		self.listerUPip.resize(125, 30)
 		self.listerUPip.setStyleSheet("background-color: white")
 
+		#Bouton de pip upgrade
+		self.PipUpgrade = QPushButton('Mettre pip à jour', self)
+		self.PipUpgrade.move(10, 560)
+		self.PipUpgrade.resize(125, 30)
+		self.PipUpgrade.setStyleSheet("background-color:white")
+
 		#Connecter les boutons
 		self.installer.clicked.connect(self.on_click)
 		self.suInstaller.clicked.connect(self.sudoClick)
 		self.listerPip.clicked.connect(self.showList)
 		self.listerOPip.clicked.connect(self.showListOutdated)
 		self.listerUPip.clicked.connect(self.showListUpdated)
+		self.PipUpgrade.clicked.connect(self.upgradePip)
 		self.show()
 	#change color def
 	def colCh(self):
@@ -95,16 +105,22 @@ class App(QMainWindow):
 		QMessageBox.question(self, 'Installé !', "Vous avez installé " + suMyPip + " avec succès !", QMessageBox.Ok, QMessageBox.Ok)
 
 	def showList(self):
-		nukeList= os.popen('pip list --format columns').read()
+		nukeList= os.popen('pip list').read()
 		self.pipList.setText(nukeList)		
 
 	def showListUpdated(self):		
-		nukeList= os.popen('pip list -u --format columns').read()
+		nukeList= os.popen('pip list -u').read()
 		self.pipList.setText(nukeList)
 
 	def showListOutdated(self):		
-		nukeList= os.popen('pip list -o --format columns').read()
+		nukeList= os.popen('pip list -o').read()
 		self.pipList.setText(nukeList)
+
+	def upgradePip(self):
+		text, okPressed = QInputDialog.getText(self, "Password needed","Your password", QLineEdit.Normal, "")
+		if okPressed and text != '':
+			os.system('echo ' + text +' | sudo -S pip install --upgrade pip ')
+		QMessageBox.question(self, 'Vous êtes à jour !', "Vous avez mis pip à jour avec succès !", QMessageBox.Ok, QMessageBox.Ok)
 
 	
 
