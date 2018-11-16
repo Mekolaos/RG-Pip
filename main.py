@@ -28,13 +28,10 @@ class App(QMainWindow):
 		self.piped.setStyleSheet("background-color: white;")
 
 		#Créer une box pour output la liste de modules
-		self.pipList = QFrame(self)
+		self.pipList = QTextBrowser(self)
 		self.pipList.move(410, 40)
 		self.pipList.resize(380,450)
 		self.pipList.setStyleSheet("background-color: white;")
-		self.listLabel = QLabel('Info  : ', self)
-		self.listLabel.move(410, 10)
-		self.listLabel.setStyleSheet("color : white; font-size:15px;")
 
 		#Créer un bouton pour installation standard
 		self.installer = QPushButton('Install Module', self)
@@ -98,31 +95,16 @@ class App(QMainWindow):
 		QMessageBox.question(self, 'Installé !', "Vous avez installé " + suMyPip + " avec succès !", QMessageBox.Ok, QMessageBox.Ok)
 
 	def showList(self):
-		self.labelL.setParent(None)
 		nukeList= os.popen('pip list --format columns').read()
-		self.labelL = QLabel(nukeList, self)
-		self.labelL.move(415, 50)
-		self.labelL.resize(345, 400)
-		print(nukeList)
-		self.labelL.show()
+		self.pipList.setText(nukeList)		
 
-	def showListUpdated(self):
-		self.labelL.setParent(None)
+	def showListUpdated(self):		
 		nukeList= os.popen('pip list -u --format columns').read()
-		self.labelL = QLabel(nukeList, self)
-		self.labelL.move(415, 50)
-		self.labelL.resize(345, 400)
-		print(nukeList)
-		self.labelL.show()
+		self.pipList.setText(nukeList)
 
-	def showListOutdated(self):
-		self.labelL.setParent(None)
+	def showListOutdated(self):		
 		nukeList= os.popen('pip list -o --format columns').read()
-		self.labelL = QLabel(nukeList, self)
-		self.labelL.move(415, 50)
-		self.labelL.resize(345, 400)
-		print(nukeList)
-		self.labelL.show()
+		self.pipList.setText(nukeList)
 
 	
 
