@@ -80,6 +80,8 @@ class App(QMainWindow):
 		nukeList= os.popen('pip list -u').read()
 		self.labelL = QLabel(nukeList, self)
 		self.labelL.move(415, 50)
+		self.labelL.resize(345, 400)
+		print(nukeList)
 		self.labelL.show()
 
 
