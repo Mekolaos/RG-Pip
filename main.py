@@ -71,9 +71,17 @@ class App(QMainWindow):
 		os.system('pip install ' + myPip)
 		QMessageBox.question(self, 'Installé !', "Vous avez installé " + myPip + " avec succès !" , QMessageBox.Ok, QMessageBox.Ok)
 
+			
+
 	def sudoClick(self):
+		self.getPass()
+		
+
+	def getPass(self):
 		suMyPip = self.piped.text()
-		os.system('sudo pip install ' + suMyPip)
+		text, okPressed = QInputDialog.getText(self, "Password needed","Your password", QLineEdit.Normal, "")
+		if okPressed and text != '':
+			os.system('echo ' + text +' | sudo -S pip install ' + suMyPip)
 		QMessageBox.question(self, 'Installé !', "Vous avez installé " + suMyPip + " avec succès !", QMessageBox.Ok, QMessageBox.Ok)
 
 	def showList(self):
@@ -83,6 +91,7 @@ class App(QMainWindow):
 		self.labelL.resize(345, 400)
 		print(nukeList)
 		self.labelL.show()
+
 
 
 
